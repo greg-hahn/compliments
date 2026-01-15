@@ -9,13 +9,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700;900&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        /* Modern Glassmorphism & Animated Background */
+        /* Warm & Loving Color Scheme */
         :root {
-            --primary: #FF6B6B;
-            --secondary: #FFD166;
-            --glass-bg: rgba(255, 255, 255, 0.25);
-            --glass-border: rgba(255, 255, 255, 0.4);
-            --text-dark: #2d3436;
+            --primary: #880d1e;    /* Deep Berry Red for high contrast */
+            --accent: #f25c66;     /* Rose Pink for accents */
+            --card-bg: #fffcf9;    /* Warm Ivory */
+            --text-main: #3d2b1f;  /* Deep Cocoa/Espresso (warmer than charcoal) */
+            --text-light: #ffffff;
+            --suit-color: #dd2d4a; /* Classic Heart Red */
         }
 
         * {
@@ -25,11 +26,11 @@
         }
 
         body {
-            /* Animated Gradient Background */
-            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fad0c4, #fbc2eb, #a18cd1);
+            /* Warm Sunset/Rose Gradient Background */
+            background: linear-gradient(-45deg, #fce4ec, #f8bbd0, #ffccbc, #ffe0b2);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
-            color: var(--text-dark);
+            color: var(--text-main);
             font-family: 'Lato', sans-serif;
             display: flex;
             justify-content: center;
@@ -45,59 +46,77 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Glassmorphism Card */
-        .card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            border: 1px solid var(--glass-border);
-            width: 100%;
-            max-width: 550px;
-            padding: 50px 40px;
-            border-radius: 32px;
-            text-align: center;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Decorative Background Orbs */
+        /* Decorative Background Orbs in warm tones */
         .orb {
             position: absolute;
-            width: 200px;
-            height: 200px;
+            width: 300px;
+            height: 300px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            filter: blur(50px);
+            background: rgba(255, 255, 255, 0.4);
+            filter: blur(80px);
             z-index: 0;
             animation: moveOrb 20s infinite alternate;
         }
-        .orb-1 { top: 10%; left: 10%; background: #ff7675; }
-        .orb-2 { bottom: 10%; right: 10%; background: #fdcb6e; }
+        .orb-1 { top: 5%; left: 5%; background: #f48fb1; }
+        .orb-2 { bottom: 5%; right: 5%; background: #ffab91; }
 
         @keyframes moveOrb {
             from { transform: translate(0, 0); }
-            to { transform: translate(50px, 100px); }
+            to { transform: translate(80px, 150px); }
+        }
+
+        /* The Playing Card */
+        .card {
+            background: var(--card-bg);
+            border: 2px solid rgba(136, 13, 30, 0.1); /* Subtle berry border */
+            width: 320px; 
+            height: 480px; 
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(136, 13, 30, 0.15);
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .card:hover {
+            transform: translateY(-8px) rotate(-1.5deg);
+        }
+
+        /* Suit Row across the top */
+        .suit-row {
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            font-size: 1.6rem;
+            padding-top: 10px;
+            height: 45px;
+            opacity: 0.9;
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.05));
         }
 
         /* Compliment Display Area */
         .compliment-container {
-            min-height: 200px;
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            margin-bottom: 25px;
-            position: relative;
+            width: 100%;
+            padding: 0 15px;
         }
 
         #compliment-text {
             font-family: 'Nunito', sans-serif;
-            font-size: 1.8rem;
+            font-size: 1.55rem;
             font-weight: 900;
-            line-height: 1.3;
-            color: var(--text-dark);
-            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.5);
+            line-height: 1.4;
+            color: var(--text-main);
         }
 
         .hidden { display: none !important; }
@@ -112,70 +131,76 @@
         }
 
         .heart {
-            fill: var(--primary);
-            width: 60px;
-            height: 60px;
-            filter: drop-shadow(0 0 10px rgba(255, 107, 107, 0.4));
+            fill: var(--suit-color);
+            width: 70px;
+            height: 70px;
+            filter: drop-shadow(0 4px 6px rgba(136, 13, 30, 0.2));
             animation: pulse 0.6s ease infinite alternate;
         }
 
         @keyframes pulse {
-            from { transform: scale(0.9) rotate(-5deg); }
-            to { transform: scale(1.2) rotate(5deg); }
+            from { transform: scale(0.9); opacity: 0.85; }
+            to { transform: scale(1.1); opacity: 1; }
         }
 
         .loading-text {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--primary);
             font-weight: 900;
             letter-spacing: 2px;
             text-transform: uppercase;
         }
 
-        /* Buttons */
+        /* Buttons Area - High Contrast Warm Palette */
         .actions {
+            width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            width: 100%;
+            gap: 12px;
+            margin-bottom: 10px;
         }
 
         .btn-generate {
-            background: var(--primary);
-            color: white;
+            background: var(--primary); /* Deep Berry Red */
+            color: var(--text-light);   /* White for contrast */
             border: none;
-            padding: 18px 30px;
+            padding: 16px;
             font-size: 1rem;
             font-weight: 900;
-            border-radius: 16px;
+            border-radius: 14px;
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 0px #5c0814; /* Darker berry shadow */
         }
 
         .btn-generate:hover:not(:disabled) {
-            transform: translateY(-3px) scale(1.02);
-            background: #ff5252;
-            box-shadow: 0 15px 30px rgba(255, 107, 107, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0px #5c0814;
+            background: #730a19;
+        }
+
+        .btn-generate:active:not(:disabled) {
+            transform: translateY(2px);
+            box-shadow: 0 0px 0px #5c0814;
         }
 
         .btn-generate:disabled {
-            background: rgba(0, 0, 0, 0.1);
-            color: rgba(0, 0, 0, 0.3);
+            background: #f1f1f1;
+            color: #ccc;
             box-shadow: none;
             cursor: not-allowed;
         }
 
         .btn-copy {
-            background: rgba(255, 255, 255, 0.5);
-            border: 1px solid var(--glass-border);
-            color: var(--text-dark);
-            padding: 10px;
+            background: transparent;
+            border: 2.5px solid var(--primary);
+            color: var(--primary);
+            padding: 12px;
             border-radius: 12px;
             font-size: 0.85rem;
-            font-weight: 700;
+            font-weight: 900;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -185,27 +210,32 @@
         }
 
         .btn-copy:hover {
-            background: white;
-            transform: scale(1.05);
+            background: #fff0f1;
+            transform: scale(1.02);
         }
 
         /* Tooltip */
         .copy-feedback {
             position: absolute;
-            top: -10px;
-            background: var(--text-dark);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--primary);
             color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 900;
             opacity: 0;
             transition: opacity 0.3s ease;
+            z-index: 10;
+            pointer-events: none;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
         .show-feedback { opacity: 1; }
 
-        @media (max-width: 480px) {
-            .card { padding: 40px 20px; }
-            #compliment-text { font-size: 1.4rem; }
+        @media (max-height: 550px) {
+            .card { transform: scale(0.7); }
         }
     </style>
 </head>
@@ -214,30 +244,34 @@
     <div class="orb orb-2"></div>
 
     <main class="card">
+        <!-- Row of Icons across top -->
+        <div class="suit-row" id="suit-row">
+            <span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span><span>❤️</span>
+        </div>
+
         <div class="compliment-container">
             <div id="loader" class="loader hidden">
                 <svg class="heart" viewBox="0 0 32 32">
                     <path d="M16 28.5L14.1 26.8C7.33 20.67 2.85 16.6 2.85 11.65C2.85 7.62 6 4.5 10.05 4.5C12.33 4.5 14.52 5.56 16 7.23C17.48 5.56 19.67 4.5 21.95 4.5C26 4.5 29.15 7.62 29.15 11.65C29.15 16.6 24.67 20.67 17.9 26.8L16 28.5Z" />
                 </svg>
-                <span class="loading-text">Summoning Charm...</span>
+                <span class="loading-text">Gathering Affection...</span>
             </div>
 
-            <p id="compliment-text">Ready to feel amazing?</p>
-            <div id="copy-feedback" class="copy-feedback">Magic Copied!</div>
+            <p id="compliment-text">Pick a card, any card!</p>
+            <div id="copy-feedback" class="copy-feedback">Heart Captured!</div>
         </div>
         
         <div class="actions">
-            <button id="generate-btn" class="btn-generate">Boost My Mood</button>
+            <button id="generate-btn" class="btn-generate">Draw a Note</button>
             <button id="copy-btn" class="btn-copy invisible">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                Share the Love
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Copy for a Friend
             </button>
         </div>
     </main>
 
     <script>
         const compliments = [
-            // Heartfelt & Classic
             "You are a rare gem in a world of pebbles.",
             "Your kindness is a gift to everyone who meets you.",
             "You have an incredible way of making people feel important.",
@@ -254,8 +288,6 @@
             "You are deeply appreciated, even when you don't feel it.",
             "Your perspective is a valuable treasure.",
             "You have a magical way of fixing things just by being there.",
-
-            // Funny & Quirky
             "If you were a vegetable, you’d be a cute-cumber.",
             "You’re like the 'skip ad' button on a 30-minute video.",
             "You’re the human version of a really good high-five.",
@@ -272,8 +304,6 @@
             "You have the energy of a perfectly brewed cup of coffee.",
             "You’re the reason someone is smiling at their phone right now.",
             "You’re smarter than Google and way more charming.",
-
-            // Unique & Uplifting
             "You carry so much light that you don't even need a flashlight.",
             "You are the 'Ctrl+S' of my life—you keep everything safe.",
             "Your laugh sounds like a celebration.",
@@ -294,11 +324,15 @@
             "You are exactly where you need to be."
         ];
 
+        // Loving icons for the top row
+        const suits = ["❤️", "💖", "🌸", "✨", "💌", "🦋", "🌷", "🧸", "💝", "🌹"];
+
         const textElement = document.getElementById('compliment-text');
         const loader = document.getElementById('loader');
         const generateBtn = document.getElementById('generate-btn');
         const copyBtn = document.getElementById('copy-btn');
         const copyFeedback = document.getElementById('copy-feedback');
+        const suitRow = document.getElementById('suit-row');
 
         let lastIndex = -1;
 
@@ -316,16 +350,23 @@
             textElement.classList.add('hidden');
             copyBtn.classList.add('invisible');
             loader.classList.remove('hidden');
+            
+            suitRow.style.opacity = "0.2";
 
-            // 3-second cute loading animation
+            // 3-second delay for the cute animation
             await new Promise(resolve => setTimeout(resolve, 3000));
 
             const index = getRandomIndex();
+            const suit = suits[Math.floor(Math.random() * suits.length)];
+            
+            suitRow.innerHTML = `<span>${suit}</span><span>${suit}</span><span>${suit}</span><span>${suit}</span><span>${suit}</span>`;
+            
             textElement.innerText = compliments[index];
 
             loader.classList.add('hidden');
             textElement.classList.remove('hidden');
             copyBtn.classList.remove('invisible');
+            suitRow.style.opacity = "1";
             generateBtn.disabled = false;
         }
 
@@ -345,7 +386,6 @@
         generateBtn.addEventListener('click', fetchNewCompliment);
         copyBtn.addEventListener('click', copyToClipboard);
 
-        // Start with a compliment immediately
         window.onload = fetchNewCompliment;
     </script>
 </body>
