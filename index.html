@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compliment Generator</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,12 +13,12 @@
     <style>
         /* Warm & Loving Color Scheme */
         :root {
-            --primary: #880d1e;    /* Deep Berry Red for high contrast */
+            --primary: #dd2d4a;    /* Warmer Red (Classic Heart Red) */
             --accent: #f25c66;     /* Rose Pink for accents */
             --card-bg: #fffcf9;    /* Warm Ivory */
-            --text-main: #3d2b1f;  /* Deep Cocoa/Espresso (warmer than charcoal) */
+            --text-main: #3d2b1f;  /* Deep Cocoa/Espresso */
             --text-light: #ffffff;
-            --suit-color: #dd2d4a; /* Classic Heart Red */
+            --suit-color: #dd2d4a; /* Same Classic Heart Red */
         }
 
         * {
@@ -68,13 +70,13 @@
         /* The Playing Card */
         .card {
             background: var(--card-bg);
-            border: 2px solid rgba(136, 13, 30, 0.1); /* Subtle berry border */
+            border: 2px solid rgba(221, 45, 74, 0.1); /* Subtle warm red border */
             width: 320px; 
             height: 480px; 
             padding: 25px;
             border-radius: 20px;
             text-align: center;
-            box-shadow: 0 25px 50px rgba(136, 13, 30, 0.15);
+            box-shadow: 0 25px 50px rgba(221, 45, 74, 0.15);
             position: relative;
             z-index: 1;
             display: flex;
@@ -134,7 +136,7 @@
             fill: var(--suit-color);
             width: 70px;
             height: 70px;
-            filter: drop-shadow(0 4px 6px rgba(136, 13, 30, 0.2));
+            filter: drop-shadow(0 4px 6px rgba(221, 45, 74, 0.2));
             animation: pulse 0.6s ease infinite alternate;
         }
 
@@ -161,7 +163,7 @@
         }
 
         .btn-generate {
-            background: var(--primary); /* Deep Berry Red */
+            background: var(--primary); /* Warmer Red */
             color: var(--text-light);   /* White for contrast */
             border: none;
             padding: 16px;
@@ -172,18 +174,18 @@
             text-transform: uppercase;
             letter-spacing: 1.5px;
             transition: all 0.2s ease;
-            box-shadow: 0 4px 0px #5c0814; /* Darker berry shadow */
+            box-shadow: 0 4px 0px #b0243b; /* Darker warm red shadow */
         }
 
         .btn-generate:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 6px 0px #5c0814;
-            background: #730a19;
+            box-shadow: 0 6px 0px #b0243b;
+            background: #ca2843;
         }
 
         .btn-generate:active:not(:disabled) {
             transform: translateY(2px);
-            box-shadow: 0 0px 0px #5c0814;
+            box-shadow: 0 0px 0px #b0243b;
         }
 
         .btn-generate:disabled {
