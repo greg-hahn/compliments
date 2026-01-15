@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compliment Generator</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700;900&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Modern Glassmorphism & Animated Background */
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #FFD166;
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --text-dark: #2d3436;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* Animated Gradient Background */
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fad0c4, #fbc2eb, #a18cd1);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--text-dark);
+            font-family: 'Lato', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glassmorphism Card */
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            width: 100%;
+            max-width: 550px;
+            padding: 50px 40px;
+            border-radius: 32px;
+            text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Decorative Background Orbs */
+        .orb {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            filter: blur(50px);
+            z-index: 0;
+            animation: moveOrb 20s infinite alternate;
+        }
+        .orb-1 { top: 10%; left: 10%; background: #ff7675; }
+        .orb-2 { bottom: 10%; right: 10%; background: #fdcb6e; }
+
+        @keyframes moveOrb {
+            from { transform: translate(0, 0); }
+            to { transform: translate(50px, 100px); }
+        }
+
+        /* Compliment Display Area */
+        .compliment-container {
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        #compliment-text {
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            line-height: 1.3;
+            color: var(--text-dark);
+            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.5);
+        }
+
+        .hidden { display: none !important; }
+        .invisible { opacity: 0; pointer-events: none; }
+
+        /* Loader */
+        .loader {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .heart {
+            fill: var(--primary);
+            width: 60px;
+            height: 60px;
+            filter: drop-shadow(0 0 10px rgba(255, 107, 107, 0.4));
+            animation: pulse 0.6s ease infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { transform: scale(0.9) rotate(-5deg); }
+            to { transform: scale(1.2) rotate(5deg); }
+        }
+
+        .loading-text {
+            font-size: 0.8rem;
+            color: var(--primary);
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Buttons */
+        .actions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .btn-generate {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            font-size: 1rem;
+            font-weight: 900;
+            border-radius: 16px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-generate:hover:not(:disabled) {
+            transform: translateY(-3px) scale(1.02);
+            background: #ff5252;
+            box-shadow: 0 15px 30px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-generate:disabled {
+            background: rgba(0, 0, 0, 0.1);
+            color: rgba(0, 0, 0, 0.3);
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        .btn-copy {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid var(--glass-border);
+            color: var(--text-dark);
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-copy:hover {
+            background: white;
+            transform: scale(1.05);
+        }
+
+        /* Tooltip */
+        .copy-feedback {
+            position: absolute;
+            top: -10px;
+            background: var(--text-dark);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .show-feedback { opacity: 1; }
+
+        @media (max-width: 480px) {
+            .card { padding: 40px 20px; }
+            #compliment-text { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <main class="card">
+        <div class="compliment-container">
+            <div id="loader" class="loader hidden">
+                <svg class="heart" viewBox="0 0 32 32">
+                    <path d="M16 28.5L14.1 26.8C7.33 20.67 2.85 16.6 2.85 11.65C2.85 7.62 6 4.5 10.05 4.5C12.33 4.5 14.52 5.56 16 7.23C17.48 5.56 19.67 4.5 21.95 4.5C26 4.5 29.15 7.62 29.15 11.65C29.15 16.6 24.67 20.67 17.9 26.8L16 28.5Z" />
+                </svg>
+                <span class="loading-text">Summoning Charm...</span>
+            </div>
+
+            <p id="compliment-text">Ready to feel amazing?</p>
+            <div id="copy-feedback" class="copy-feedback">Magic Copied!</div>
+        </div>
+        
+        <div class="actions">
+            <button id="generate-btn" class="btn-generate">Boost My Mood</button>
+            <button id="copy-btn" class="btn-copy invisible">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Share the Love
+            </button>
+        </div>
+    </main>
+
+    <script>
+        const compliments = [
+            // Heartfelt & Classic
+            "You are a rare gem in a world of pebbles.",
+            "Your kindness is a gift to everyone who meets you.",
+            "You have an incredible way of making people feel important.",
+            "The world is lucky to have your light.",
+            "Your strength is truly inspiring.",
+            "You are a master of making the ordinary feel extraordinary.",
+            "Your brain is as beautiful as your heart.",
+            "You’re a breath of fresh air on a humid day.",
+            "You make being a good person look effortless.",
+            "Your potential is limitless.",
+            "You deserve all the good things coming your way.",
+            "Your smile is my favorite reason to smile.",
+            "You have the courage of a lion and the heart of a poet.",
+            "You are deeply appreciated, even when you don't feel it.",
+            "Your perspective is a valuable treasure.",
+            "You have a magical way of fixing things just by being there.",
+
+            // Funny & Quirky
+            "If you were a vegetable, you’d be a cute-cumber.",
+            "You’re like the 'skip ad' button on a 30-minute video.",
+            "You’re the human version of a really good high-five.",
+            "I bet you’re the person everyone wants on their trivia team.",
+            "You’re cooler than the cool side of the pillow.",
+            "If you were a dog, you’d be the one that everyone wants to pet.",
+            "You’re the 'unexpected extra fry' at the bottom of the bag.",
+            "You are more fun than a ball pit full of puppies.",
+            "Your style is so good, even mannequins are jealous.",
+            "I would share my last slice of pizza with you. That’s big.",
+            "You’re like a high-speed Wi-Fi connection in a dead zone.",
+            "You’re the main character. Everyone else is just an NPC.",
+            "If you were a spice, you’d be the one that makes the whole dish.",
+            "You have the energy of a perfectly brewed cup of coffee.",
+            "You’re the reason someone is smiling at their phone right now.",
+            "You’re smarter than Google and way more charming.",
+
+            // Unique & Uplifting
+            "You carry so much light that you don't even need a flashlight.",
+            "You are the 'Ctrl+S' of my life—you keep everything safe.",
+            "Your laugh sounds like a celebration.",
+            "You’re a walking masterpiece in a world of sketches.",
+            "If you were a season, you’d be the perfect spring day.",
+            "You possess a level of 'awesome' that should be illegal.",
+            "You are the melody in a world full of noise.",
+            "You make 'doing your best' look like a work of art.",
+            "Your presence is like a warm blanket on a rainy day.",
+            "You are the person people write songs about.",
+            "You’re not just a snack, you’re a whole five-course meal.",
+            "Your vibe is purely magnetic.",
+            "You are the solution to a problem someone hasn't found yet.",
+            "You have a spirit that can't be dampened.",
+            "You are a rainbow in someone's cloud today.",
+            "You’re the kind of person I’d go to space with.",
+            "Your heart is a masterpiece.",
+            "You are exactly where you need to be."
+        ];
+
+        const textElement = document.getElementById('compliment-text');
+        const loader = document.getElementById('loader');
+        const generateBtn = document.getElementById('generate-btn');
+        const copyBtn = document.getElementById('copy-btn');
+        const copyFeedback = document.getElementById('copy-feedback');
+
+        let lastIndex = -1;
+
+        function getRandomIndex() {
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * compliments.length);
+            } while (newIndex === lastIndex);
+            lastIndex = newIndex;
+            return newIndex;
+        }
+
+        async function fetchNewCompliment() {
+            generateBtn.disabled = true;
+            textElement.classList.add('hidden');
+            copyBtn.classList.add('invisible');
+            loader.classList.remove('hidden');
+
+            // 3-second cute loading animation
+            await new Promise(resolve => setTimeout(resolve, 3000));
+
+            const index = getRandomIndex();
+            textElement.innerText = compliments[index];
+
+            loader.classList.add('hidden');
+            textElement.classList.remove('hidden');
+            copyBtn.classList.remove('invisible');
+            generateBtn.disabled = false;
+        }
+
+        function copyToClipboard() {
+            const textToCopy = textElement.innerText;
+            const el = document.createElement('textarea');
+            el.value = textToCopy;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+
+            copyFeedback.classList.add('show-feedback');
+            setTimeout(() => copyFeedback.classList.remove('show-feedback'), 2000);
+        }
+
+        generateBtn.addEventListener('click', fetchNewCompliment);
+        copyBtn.addEventListener('click', copyToClipboard);
+
+        // Start with a compliment immediately
+        window.onload = fetchNewCompliment;
+    </script>
+</body>
+</html>
